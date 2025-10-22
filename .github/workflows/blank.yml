@@ -41,13 +41,14 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Configurar credenciales AWS
+      - name: Configurar credenciales AWS y asumir el rol LabRole
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: us-east-1
+          role-to-assume: arn:aws:iam:${{ secrets.AWS_ACCOUNT_ID }}:role/LabRole
+          role-duration-seconds: 3600
 
       - name: Instalar dependencias para ETL
         run: |
@@ -59,19 +60,16 @@ jobs:
       - name: Ejecutar ETL y subir archivos a S3
         run: |
           source env-etl/bin/activate
+          echo "🔍 Verificando acceso a S3..."
+          aws sts get-caller-identity
           echo "📤 Ejecutando ETL para Dim_Customer..."
-          python scripts/dim_customer.py
+          python scripts/dim_customer.py || { echo "Error al ejecutar dim_customer.py"; exit 1; }
           echo "📤 Ejecutando ETL para Dim_Date..."
-          python scripts/dim_date.py
+          python scripts/dim_date.py || { echo "Error al ejecutar dim_date.py"; exit 1; }
           echo "📤 Ejecutando ETL para Dim_Film..."
-          python scripts/dim_film.py
+          python scripts/dim_film.py || { echo "Error al ejecutar dim_film.py"; exit 1; }
           echo "📤 Ejecutando ETL para Dim_Store..."
-          python scripts/dim_store.py
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
-          AWS_DEFAULT_REGION: us-east-1
+          python scripts/dim_store.py || { echo "Error al ejecutar dim_store.py"; exit 1; }
 
   deploy-scripts:
     runs-on: ubuntu-latest
@@ -79,13 +77,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Configurar credenciales AWS
+      - name: Configurar credenciales AWS y asumir el rol LabRole
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: us-east-1
+          role-to-assume: arn:aws:iam::<TU_CUENTA_AWS_ID>:role/LabRole
+          role-duration-seconds: 3600
 
       - name: Subir scripts a S3 para Glue
         run: |
