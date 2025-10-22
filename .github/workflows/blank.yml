@@ -6,9 +6,6 @@ on:
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
-  
-permissions:
- id-token: write  
 
 jobs:
   test-etl:
@@ -50,7 +47,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-          role-to-assume: arn:aws:iam::848073509548:role/LabRole
+          role-to-assume: arn:aws:iam:${{ secrets.AWS_ACCOUNT_ID }}:role/LabRole
           role-duration-seconds: 3600
 
       - name: Instalar dependencias para ETL
@@ -86,7 +83,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-          role-to-assume: arn:aws:iam::<TU_CUENTA_AWS_ID>:role/LabRole
+          role-to-assume: arn:aws:iam:${{ secrets.AWS_ACCOUNT_ID }}:role/LabRole
           role-duration-seconds: 3600
 
       - name: Subir scripts a S3 para Glue

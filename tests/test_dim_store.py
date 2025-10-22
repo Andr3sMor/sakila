@@ -9,7 +9,7 @@ def test_dim_store_transformation():
     # Datos de prueba simulados
     data = {
         'store_id': [101, 102, 101, 103],
-        'other_column': ['X', 'Y', 'Z', 'W']  # Columna adicional para simular datos reales
+        'other_column': ['X', 'Y', 'Z', 'W']  
     }
     fact_rental_df = pd.DataFrame(data)
 
