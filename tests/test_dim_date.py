@@ -38,4 +38,4 @@ def test_dim_date_transformation():
     assert 'quarter' in result.columns
     assert 'is_weekend' in result.columns
     assert len(result) == 2  # Solo 2 fechas únicas
-    assert result['date_id'].iloc[0] == 20251020  # Formato YYYYMMDD
+    assert result['date_id'].iloc[0] == 20251020 

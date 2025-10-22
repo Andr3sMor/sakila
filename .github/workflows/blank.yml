@@ -41,7 +41,7 @@ jobs:
       - name: Configurar credenciales AWS usando OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam:${{ secrets.AWS_ACCOUNT_ID }}:role/LabRole
+          role-to-assume: arn:aws:iam::848073509548:role/LabRole
           aws-region: us-east-1
           role-duration-seconds: 3600
       - name: Instalar dependencias para ETL
@@ -72,7 +72,7 @@ jobs:
       - name: Configurar credenciales AWS usando OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam:${{ secrets.AWS_ACCOUNT_ID }}:role/LabRole
+          role-to-assume: arn:aws:iam::848073509548:role/LabRole
           aws-region: us-east-1
           role-duration-seconds: 3600
       - name: Subir scripts a S3 para Glue
