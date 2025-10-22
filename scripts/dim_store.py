@@ -7,7 +7,7 @@ import pyarrow as pa
 # --- CONFIGURACIÓN ---
 s3 = boto3.client('s3')
 bucket_input = 'sakila-rds-customers'
-prefix_input = 'fact_rental/'  # Ajusta según donde estén los datos de store
+prefix_input = 'fact_rental/' 
 bucket_output = 'cmjm_datalake'
 prefix_output = 'dim_store/'
 
