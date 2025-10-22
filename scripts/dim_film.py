@@ -34,7 +34,7 @@ def main():
     # --- EXTRAER Y TRANSFORMAR DATOS PARA Dim_Film ---
     dim_film_df = fact_rental_df[['film_id']].drop_duplicates()
 
-    # --- GUARDAR RESULTADO COMO PARQUET SNAPPY ---
+    # --- GUARDAR RESULTADO COMO PARQUET  ---
     table = pa.Table.from_pandas(dim_film_df, preserve_index=False)
     buffer_out = BytesIO()
     pq.write_table(table, buffer_out, compression='snappy')
