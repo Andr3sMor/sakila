@@ -31,7 +31,7 @@ def main():
 
     fact_rental_df = pd.concat(dfs, ignore_index=True)
 
-    # --- EXTRAER Y TRANSFORMAR DATOS PARA Dim_Store ---
+    # --- EXTRAER Y TRANSFORMAR DATOS EN Dim_Store ---
     dim_store_df = fact_rental_df[['store_id']].drop_duplicates()
 
     # --- GUARDAR RESULTADO COMO PARQUET SNAPPY ---
