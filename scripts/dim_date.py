@@ -50,7 +50,7 @@ def main():
     dates_df['quarter'] = pd.to_datetime(dates_df['rental_date']).dt.quarter
     dates_df['is_weekend'] = pd.to_datetime(dates_df['rental_date']).dt.dayofweek.isin([5, 6])
 
-    # --- FERIADOS EN COLOMBIA ---
+    # --- FERIADOS EN USA ---
     co_holidays = holidays.country_holidays('US', years=dates_df['year'].unique())
     dates_df['is_holiday'] = dates_df['rental_date'].isin(co_holidays)
 
